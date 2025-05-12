@@ -1,15 +1,17 @@
 package utils;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.Properties;
 
 public class DBUtils {
 
     private static final String PROPERTIES_FILE = "db.properties";
 
-    public static Connection getConnection() throws Exception {
+    public static Connection getConnection() throws IOException, SQLException {
         Properties props = new Properties();
         try (InputStream input = DBUtils.class.getClassLoader().getResourceAsStream(PROPERTIES_FILE)) {
             props.load(input);
