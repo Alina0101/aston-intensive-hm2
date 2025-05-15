@@ -1,25 +1,35 @@
 package entities;
 
+import jakarta.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity
+@Table(name = "authors")
 public class Author {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false, length = 100)
     private String name;
-    private int birthYear;
+
+    @Column(name = "birth_year")
+    private Integer birthYear;
+
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Book> books = new ArrayList<>();
 
     public Author() {
     }
 
-    public Author(Long id, String name, int birthYear) {
-        this.id = id;
+    public Author(String name, Integer birthYear) {
         this.name = name;
         this.birthYear = birthYear;
     }
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -30,12 +40,16 @@ public class Author {
         this.name = name;
     }
 
-    public int getBirthYear() {
+    public Integer getBirthYear() {
         return birthYear;
     }
 
-    public void setBirthYear(int birthYear) {
+    public void setBirthYear(Integer birthYear) {
         this.birthYear = birthYear;
+    }
+
+    public List<Book> getBooks() {
+        return books;
     }
 
     @Override

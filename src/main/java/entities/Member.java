@@ -1,18 +1,28 @@
 package entities;
 
+import jakarta.persistence.*;
 import java.time.LocalDate;
 
+@Entity
+@Table(name = "members")
 public class Member {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false, length = 100)
     private String name;
+
+    @Column(nullable = false, unique = true, length = 100)
     private String email;
+
+    @Column(name = "membership_date", nullable = false)
     private LocalDate membershipDate;
 
     public Member() {
     }
 
-    public Member(Long id, String name, String email, LocalDate membershipDate) {
-        this.id = id;
+    public Member(String name, String email, LocalDate membershipDate) {
         this.name = name;
         this.email = email;
         this.membershipDate = membershipDate;
