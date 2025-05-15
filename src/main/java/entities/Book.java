@@ -1,36 +1,43 @@
 package entities;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "books")
 public class Book {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false, length = 200)
     private String title;
-    private Long authorId;
-    private int publishedYear;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "author_id", nullable = false)
+    private Author author;
+
+    @Column(name = "published_year")
+    private Integer publishedYear;
+
+    @Column(length = 50)
     private String genre;
 
     public Book() {
     }
 
-    public Book(Long id, String title, Long authorId, int publishedYear, String genre) {
-        this.id = id;
+    public Book(String title, Author author, Integer publishedYear, String genre) {
         this.title = title;
-        this.authorId = authorId;
+        this.author = author;
         this.publishedYear = publishedYear;
         this.genre = genre;
-    }
-
-    public Book(String title, Long authorId, int publishedYear, String genre) {
-        this.title = title;
-        this.authorId = authorId;
-        this.publishedYear = publishedYear;
-        this.genre = genre;
-    }
-
-    public Long getId() {
-        return id;
     }
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getTitle() {
@@ -41,19 +48,19 @@ public class Book {
         this.title = title;
     }
 
-    public Long getAuthorId() {
-        return authorId;
+    public Author getAuthor() {
+        return author;
     }
 
-    public void setAuthorId(Long authorId) {
-        this.authorId = authorId;
+    public void setAuthor(Author author) {
+        this.author = author;
     }
 
-    public int getPublishedYear() {
+    public Integer getPublishedYear() {
         return publishedYear;
     }
 
-    public void setPublishedYear(int publishedYear) {
+    public void setPublishedYear(Integer publishedYear) {
         this.publishedYear = publishedYear;
     }
 
@@ -70,7 +77,7 @@ public class Book {
         return "Book{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
-                ", authorId=" + authorId +
+                ", author=" + (author != null ? author.getName() : "null") +
                 ", publishedYear=" + publishedYear +
                 ", genre='" + genre + '\'' +
                 '}';
